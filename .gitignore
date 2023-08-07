@@ -1,0 +1,6 @@
+.venv
+venv/
+env/
+.gitignore/
+.idea/
+.pyvenv.cfg/
