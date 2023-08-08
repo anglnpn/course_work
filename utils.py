@@ -4,6 +4,7 @@ import datetime
 from operator import itemgetter
 from classes import Operations
 
+
 def unpacking_json():
     """
     Функция распаковывает json.
@@ -37,8 +38,17 @@ def unpacking_json():
     executed_list_3 = sorted(executed_list_2, key=itemgetter("date"))
 
     last_5_operation = executed_list_3[-5:]
-    for i in last_5_operation:
+    for oper in last_5_operation:
+        date = oper["date"]
+        amount = oper["operationAmount"]["amount"]
+        currency = oper["operationAmount"]["currency"]["name"]
+        description = oper["description"]
+        # from_ = oper["from"]                      """assert"""
+        to_ = oper["to"]
 
-    operations = Operations()
+        operations = Operations(date, amount, currency, description, to_)
+
+        print(operations)
+
 
 unpacking_json()
