@@ -1,7 +1,8 @@
 import json
 import request
 import datetime
-
+from operator import itemgetter
+from classes import Operations
 
 def unpacking_json():
     """
@@ -18,12 +19,26 @@ def unpacking_json():
         else:
             continue
 
+    """
+     Получаем дату операции. Именяем ее формат.
+     Меняем значение в словаре по ключу.
+     """
+
+    executed_list_2 = []
+
     for executed_operation in executed_list:
         date = datetime.datetime.strptime(executed_operation.get("date"), '%Y-%m-%dT%H:%M:%S.%f')
         new_date = f'{date:%Y%m%d%H%M%S%f}'
-        executed_operation["date"] = new_date
-        print(new_date)
-        print(executed_operation)
+        executed_operation["date"] = int(new_date)
+        executed_list_2.append(executed_operation)
+        # print(new_date)
+        # print(executed_operation)
 
+    executed_list_3 = sorted(executed_list_2, key=itemgetter("date"))
 
-print(unpacking_json())
+    last_5_operation = executed_list_3[-5:]
+    for i in last_5_operation:
+
+    operations = Operations()
+
+unpacking_json()
