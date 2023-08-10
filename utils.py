@@ -35,20 +35,28 @@ def unpacking_json():
         # print(new_date)
         # print(executed_operation)
 
+    # print(executed_list_2)
+
     executed_list_3 = sorted(executed_list_2, key=itemgetter("date"))
-
     last_5_operation = executed_list_3[-5:]
+
+    total_list = []
+
     for oper in last_5_operation:
-        date = oper["date"]
-        amount = oper["operationAmount"]["amount"]
-        currency = oper["operationAmount"]["currency"]["name"]
-        description = oper["description"]
-        # from_ = oper["from"]                      """assert"""
-        to_ = oper["to"]
+        try:
+            date = oper["date"]
+            amount = oper["operationAmount"]["amount"]
+            currency = oper["operationAmount"]["currency"]["name"]
+            description = oper["description"]
+            to_ = oper["to"]
+            from_ = oper["from"]
 
-        operations = Operations(date, amount, currency, description, to_)
+        except KeyError:
+            from_ = False
+            # print(from_)
 
-        print(operations)
+        operations_s = Operations(date, amount, currency, description, to_, from_)
+        total_list.append(operations_s)
+        # print(operations)
 
-
-unpacking_json()
+    return total_list
