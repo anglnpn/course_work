@@ -1,14 +1,17 @@
 from classes import Operations
-from utils import unpacking_json
+from utils import unpacking_json, get_from_and_to
 
 
 unpacking_json = unpacking_json()
 
-user_input = input('Для вывода информации о последних 5 операциях нажмите Enter')
-for a in unpacking_json:
-    print(f'{a.get_data()} {a.get_description()}\n'
-          f'{a.get_from_to()}\n'
-          f'{a.get_amount()}\n')
+user_input = input('Для вывода информации о последних 5 операциях нажмите Enter\n')
+for operation in unpacking_json:
+    print(f'{operation.get_data()} {operation.get_description()}\n'
+          f'{get_from_and_to(operation)}\n'
+          f'{operation.get_amount()}\n')
+
+
+
 
 
 

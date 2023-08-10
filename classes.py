@@ -29,11 +29,11 @@ class Operations:
     def get_description(self):
         return self.description
 
-    def get_from_to(self):
-        if self.from_:
-            return f'{self.from_} -> {self.to_}'
-        else:
-            return self.to_
+    def get_from_(self):
+        return self.from_
+
+    def get_to_(self):
+        return self.to_
 
     def get_amount(self):
         return f'{self.amount} {self.currency}'

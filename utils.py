@@ -3,6 +3,7 @@ import request
 import datetime
 from operator import itemgetter
 from classes import Operations
+from re import sub
 
 
 def unpacking_json():
@@ -60,3 +61,53 @@ def unpacking_json():
         # print(operations)
 
     return total_list
+
+
+def get_from_check_or_card(operation):
+    """
+    Получет объект from.
+    Определяет счет это или карта.
+    Шифрует в зависимости от типа.
+    """
+    _from = operation.get_from_()
+    if operation.get_from_():
+        for i in _from.split():
+            if i == 'Счет':
+                check_from = _from[:-14]
+                check_from = check_from[0:-6] + '**' + check_from[-4:]
+                return check_from
+            else:
+                card_from = sub(r'(\d{6})\d{6}(\d{4})', r'\1** **** \2', _from)
+                return card_from
+    else:
+        return False
+
+
+def get_to_check_or_card(operation):
+    """
+      Получет объект to.
+    Определяет счет это или карта.
+    Шифрует в зависимости от типа.
+    """
+    _to = operation.get_to_()
+    for i in _to.split():
+        if i == 'Счет':
+            check_from = _to[:-14]
+            check_from = check_from[0:-6] + '**' + check_from[-4:]
+            return check_from
+        else:
+            card_from = sub(r'(\d{6})\d{6}(\d{4})', r'\1** **** \2', _to)
+            return card_from
+
+
+def get_from_and_to(operation):
+    """
+    вызывает функции с объектами.
+    Определяет как вывод информацию пользователю.
+    """
+    from_ = get_from_check_or_card(operation)
+    to_ = get_to_check_or_card(operation)
+    if from_:
+        return f'{from_} -> {to_}'
+    else:
+        return to_
