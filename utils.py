@@ -1,9 +1,7 @@
 import json
-import request
 import datetime
 from operator import itemgetter
 from classes import Operations
-from re import sub
 
 
 def unpacking_json():
@@ -73,12 +71,15 @@ def get_from_check_or_card(operation):
     if operation.get_from_():
         for i in _from.split():
             if i == 'Счет':
-                check_from = _from[:-14]
-                check_from = check_from[0:-6] + '**' + check_from[-4:]
+                check_from = _from.split()[0] + ' **' + _from.split()[1][-4:]
                 return check_from
             else:
-                card_from = sub(r'(\d{6})\d{6}(\d{4})', r'\1** **** \2', _from)
-                return card_from
+                if i == 'Visa':
+                    card_from = f"{i} {_from.split()[1]} {_from[-4:]} {_from[-6:-4]}** **** {_from[-16:-12]}"
+                    return card_from
+                else:
+                    card_from = f"{i} {_from[-4:]} {_from[-6:-4]}** **** {_from[-16:-12]}"
+                    return card_from
     else:
         return False
 
@@ -92,11 +93,10 @@ def get_to_check_or_card(operation):
     _to = operation.get_to_()
     for i in _to.split():
         if i == 'Счет':
-            check_from = _to[:-14]
-            check_from = check_from[0:-6] + '**' + check_from[-4:]
+            check_from = _to.split()[0] + ' **' + _to.split()[1][-4:]
             return check_from
         else:
-            card_from = sub(r'(\d{6})\d{6}(\d{4})', r'\1** **** \2', _to)
+            card_from = f"{i} {_to[-4:]} {_to[-6:-4]}** **** {_to[-16:-12]}"
             return card_from
 
 
